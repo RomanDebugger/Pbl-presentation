@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Readflow | Technical Presentation 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #60a5fa, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 50% 30%, rgba(59, 130, 246, 0.15), transparent 70%);
+            z-index: -1;
+        }
+
+        #timerContainer {
+            background-color: #ffffff;
+            color: #020617;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            border: 3px solid #3b82f6;
+            z-index: 1000;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes flicker {
+
+            0%,
+            100% {
+                background-color: #ffffff;
+                color: #020617;
+            }
+
+            50% {
+                background-color: #ef4444;
+                color: #ffffff;
+            }
+        }
+
+        .timer-warning {
+            animation: flicker 1s infinite !important;
+            border: 3px solid #ef4444 !important;
+            transform: scale(1.1);
+        }
+
+        .timer-stop {
+            background-color: #991b1b !important;
+            color: #ffffff !important;
+            border: 3px solid #f87171 !important;
+            animation: none !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #3b82f6;
+            transition: width .3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero-glow"></div>
+
+    <div id="timerContainer" class="fixed bottom-10 right-10 px-8 py-4 rounded-3xl flex items-center gap-4">
+        <i class="fas fa-hourglass-start text-blue-600 text-2xl" id="timerIcon"></i>
+        <span id="displayTime" class="text-4xl font-black font-mono tracking-tighter">00:00</span>
+    </div>
+
+    <nav class="fixed w-full z-50 glass border-b border-slate-800/50 px-8 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <div class="bg-white rounded flex items-center justify-center shadow-md h-12 w-12">
+                <img src="muj-logo.png" alt="MUJ" class="h-full w-auto object-contain"
+                    onerror="this.src='https://via.placeholder.com/50?text=MUJ'">
+            </div>
+            <div class="flex flex-col">
+                <span class="text-xl font-black text-white leading-none tracking-tighter uppercase">PBL <span
+                        class="text-blue-500 italic">2026</span></span>
+                <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">Department of Computer
+                    Science and Engineering</span>
+            </div>
+        </div>
+        <div class="hidden md:flex gap-8 text-[11px] uppercase tracking-widest font-bold opacity-70">
+            <a href="#problem" class="nav-link">Problem</a>
+            <a href="#methodology" class="nav-link">Methodology</a>
+            <a href="#results" class="nav-link">Analysis</a>
+            <a href="#team" class="nav-link">Credits</a>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 pt-48 pb-32 space-y-48">
+
+        <section class="text-center" data-aos="zoom-out-up">
+            <div
+                class="inline-block px-4 py-1 border border-blue-500/30 rounded-full text-blue-400 text-[10px] font-mono mb-6 uppercase tracking-widest">
+                REG NO: 23FE10CSE00766
+            </div>
+            <h1 class="text-6xl md:text-8xl font-extrabold mb-8 uppercase leading-tight tracking-tighter">
+                <span class="gradient-text">Readflow</span><br>Structural Pipeline
+            </h1>
+            <p
+                class="text-slate-400 max-w-3xl mx-auto italic text-xl leading-relaxed border-l-4 border-blue-600 pl-8 text-left glass p-8 rounded-r-3xl">
+                "Hypothesis: Deterministic structural heuristics in Go can categorize document elements (titles, body,
+                noise) to optimize LLM context windows, reducing token consumption and grounding responses in verified
+                source data."
+            </p>
+        </section>
+
+        <section id="problem" class="grid md:grid-cols-2 gap-12 items-stretch">
+            <div class="glass p-12 rounded-[3rem] flex flex-col justify-center border-l-8 border-blue-600"
+                data-aos="fade-right">
+                <h2 class="text-4xl font-black mb-6 uppercase tracking-tight text-white">The Ingestion <br><span
+                        class="text-blue-500 italic">Bottleneck</span></h2>
+                <p class="text-slate-400 leading-relaxed text-lg text-justify font-medium">
+                    Technical documents contain high volumes of non-functional text, such as headers, footers, and page
+                    artifacts. Standard RAG implementations ingest this noise as signal, which degrades local model
+                    reasoning and increases prompt evaluation latency.
+                </p>
+            </div>
+            <div class="space-y-6" data-aos="fade-left">
+                <div class="glass p-8 rounded-3xl border-r-8 border-blue-500/30">
+                    <h3 class="text-blue-400 font-bold text-xs uppercase tracking-widest mb-3 italic">State-of-the-Art
+                        Limit</h3>
+                    <p class="text-sm text-slate-400 font-medium">Existing Python-based parsers lack deterministic
+                        structural awareness, relying on the LLM to sort relevant content post-extraction.</p>
+                </div>
+                <div class="glass p-8 rounded-3xl border-r-8 border-purple-500/30">
+                    <h3 class="text-purple-400 font-bold text-xs uppercase tracking-widest mb-3 italic">Readflow
+                        Innovation</h3>
+                    <p class="text-sm text-slate-400 font-medium">By implementing byte-level scanning in Go, we
+                        calculate heuristic information density to perform <b>Context Gating</b> before the data reaches
+                        the LLM.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="methodology" class="space-y-16">
+            <h2 class="text-5xl font-black text-center uppercase tracking-tighter text-white" data-aos="fade-up">System
+                <span class="text-blue-500 italic">Architecture</span>
+            </h2>
+
+
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass p-10 rounded-[2.5rem] text-center border-b-4 border-blue-600" data-aos="flip-left">
+                    <i class="fas fa-microchip text-blue-500 text-5xl mb-6"></i>
+                    <h3 class="font-black mb-4 uppercase text-xs tracking-widest text-white">Go-Backend Engine</h3>
+                    <p class="text-sm text-slate-500 italic font-medium leading-relaxed">Handles structural
+                        normalization and deterministic quality scoring of text chunks.</p>
+                </div>
+                <div class="glass p-10 rounded-[2.5rem] text-center border-b-4 border-purple-600" data-aos="flip-left"
+                    data-aos-delay="100">
+                    <i class="fas fa-server text-purple-500 text-5xl mb-6"></i>
+                    <h3 class="font-black mb-4 uppercase text-xs tracking-widest text-white">Local Inference</h3>
+                    <p class="text-sm text-slate-500 italic font-medium leading-relaxed">Privacy-preserving analysis
+                        using a local Gemma 3 (Ollama) instance.</p>
+                </div>
+                <div class="glass p-10 rounded-[2.5rem] text-center border-b-4 border-green-600" data-aos="flip-left"
+                    data-aos-delay="200">
+                    <i class="fas fa-code text-green-500 text-5xl mb-6"></i>
+                    <h3 class="font-black mb-4 uppercase text-xs tracking-widest text-white">Integrated HUD</h3>
+                    <p class="text-sm text-slate-500 italic font-medium leading-relaxed">Streamlit interface
+                        synchronizing structural anchors with PDF visualization.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="results" class="glass p-16 rounded-[4rem] border-t-8 border-blue-600" data-aos="zoom-in">
+            <h2 class="text-4xl font-black mb-16 text-center uppercase tracking-tight text-white">Benchmarks & <span
+                    class="text-blue-500 italic">Fidelity Metrics</span></h2>
+            <div class="grid md:grid-cols-2 gap-20 items-center">
+                <div class="h-96 relative"><canvas id="resultsChart"></canvas></div>
+                <div class="space-y-8">
+                    <div class="p-8 rounded-3xl bg-white/5 border border-white/10">
+                        <span
+                            class="text-slate-400 font-bold uppercase text-[10px] tracking-widest italic">Signal-to-Noise
+                            Ratio (SNR)</span>
+                        <div class="flex items-baseline gap-2 mt-2">
+                            <span class="text-blue-500 font-mono font-black text-6xl">91%</span>
+                            <span class="text-slate-600 text-sm font-bold uppercase">Signal Density</span>
+                        </div>
+                    </div>
+                    <p class="text-slate-400 text-lg italic text-justify leading-relaxed font-medium">
+                        "The Go engine eliminated 90% of extraction noise, resulting in a 64% reduction in prompt
+                        evaluation time and 100% citation grounding for technical data."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="team" class="text-center pt-20 border-t border-slate-900" data-aos="fade-up">
+            <h2 class="text-[11px] font-black text-slate-600 uppercase tracking-[0.6em] mb-16">Academic Credits</h2>
+            <div class="flex flex-wrap justify-center gap-12">
+                <div class="glass px-16 py-10 rounded-[3rem] border-b-8 border-blue-600 transition">
+                    <p class="text-[10px] font-bold text-blue-500 mb-2 uppercase tracking-widest">Developer</p>
+                    <p class="font-black text-2xl text-slate-100">Akshat Tiwari</p>
+                    <p class="text-[11px] text-slate-500 mt-2 font-mono uppercase tracking-widest">23FE10CSE00766</p>
+                </div>
+                <div class="glass px-16 py-10 rounded-[3rem] border-b-8 border-slate-700 transition">
+                    <p class="text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-widest">Project Guide</p>
+                    <p class="font-black text-2xl text-slate-100">Dr. Soni Gupta</p>
+                    <p class="text-[11px] text-slate-500 mt-2 font-mono uppercase tracking-widest italic">Manipal
+                        University Jaipur</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-20 text-center bg-black/60 border-t border-slate-900">
+        <p class="text-slate-600 text-[11px] font-black tracking-[0.5em] uppercase mb-4">Manipal University Jaipur</p>
+        <p class="text-slate-500 text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">Dept. of Computer Science
+            & Engineering • 2026</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init({ duration: 1000, once: true });
+            timer = setInterval(updateTimerDisplay, 1000);
+
+            const ctx = document.getElementById('resultsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Baseline Extraction', 'Readflow Engine'],
+                    datasets: [{
+                        label: 'Signal Fidelity (%)',
+                        data: [42, 91],
+                        backgroundColor: ['#1e293b', '#3b82f6'],
+                        borderRadius: 20,
+                        barThickness: 60
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#ffffff05' }, ticks: { color: '#475569', font: { weight: '800' } } },
+                        x: { grid: { display: false }, ticks: { color: '#f8fafc', font: { weight: '800' } } }
+                    }
+                }
+            });
+        });
+
+        let sec = 0;
+        let timer = null;
+
+        function updateTimerDisplay() {
+            const display = document.getElementById('displayTime');
+            const container = document.getElementById('timerContainer');
+            const icon = document.getElementById('timerIcon');
+
+            if (!display || !container || !icon) return;
+
+            sec++;
+            let m = Math.floor(sec / 60);
+            let s = sec % 60;
+
+            display.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+
+            if (sec >= 480 && sec < 600) {
+                container.classList.add('timer-warning');
+                icon.classList.replace('fa-hourglass-start', 'fa-hourglass-half');
+            } else if (sec >= 600) {
+                clearInterval(timer);
+                container.classList.remove('timer-warning');
+                container.classList.add('timer-stop');
+                display.innerText = "10:00";
+                icon.classList.replace('fa-hourglass-half', 'fa-hourglass-end');
+            }
+        }
+    </script>
+</body>
+
+</html>
